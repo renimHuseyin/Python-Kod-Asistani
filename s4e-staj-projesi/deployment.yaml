@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kod-uretici
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kod-uretici
+  template:
+    metadata:
+      labels:
+        app: kod-uretici
+    spec:
+      containers:
+        - name: kod-uretici
+          image: kod-uretici:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kod-uretici-service
+spec:
+  selector:
+    app: kod-uretici
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
